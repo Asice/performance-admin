@@ -6,7 +6,7 @@ logging:
     level:
         com.qurich: info
     path: /logs
-    file: livingshow.log
+    file: livingshow-admin.log
 
 spring:
     datasource:
