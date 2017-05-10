@@ -2,12 +2,6 @@ server:
     port: 8899
     context-path: #/livingmanage/
 
-logging:
-    level:
-        com.qurich: info
-    path: /logs
-    file: livingshow-admin.log
-
 spring:
     datasource:
         name: qurich_information
