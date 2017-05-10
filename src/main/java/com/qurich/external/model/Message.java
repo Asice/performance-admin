@@ -18,6 +18,7 @@ public class Message{
 	private String stock; //推荐的股票
 	private int lucene; //是否索引
 	private String bull_category;
+	private int status; //0无标示，1 A股
 	
 	@Override
 	public String toString() {
@@ -28,6 +29,14 @@ public class Message{
 	}
 
 	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public String getBull_category() {
 		return bull_category;
 	}

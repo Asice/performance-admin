@@ -1,8 +1,10 @@
 package com.qurich.external.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ public class MessageService {
     		List<Message> list = messageMapper.getBeanList((page-1)*20, 20);
     		int totalRecord = messageMapper.getBeanAllCount(0);
     		//添加查看数
-    		messageMapper.updateViewList(list);
+    		if(list.size()>0)
+    			messageMapper.updateViewList(list);
     		PageUtil pageUtil = new PageUtil(20, totalRecord, page);
     		pageUtil.setTotalRecord(totalRecord);
     		pageUtil.setPageNumStart(pageUtil.getPageNumStart());
@@ -41,12 +44,36 @@ public class MessageService {
     	return "message/list";
     }
 	
-	//公司利好
-	public String listType(int page,Model model){
+	/**
+	 * 
+	 * @param status A股。。。
+	 * @param bull 利好类型
+	 * @param page
+	 * @param model
+	 * @return
+	 */
+	public String listType(int status,String bull,int page,Model model){
     	try{
-    		List<Message> list = messageMapper.getBeanListType(3,(page-1)*30, 30);
-    		int totalRecord = messageMapper.getBeanAllCountType(3);
-    		messageMapper.updateViewList(list);
+    		List<String> bulls=new ArrayList<String>();
+    		if("null".equals(bull.toLowerCase())){
+				bull="";
+			}
+    		if(StringUtils.isNotBlank(bull)){
+    			String[] arr=bull.split(",");
+    			String bullArray="";
+    			for(String s:arr){
+    				bullArray+=",'"+s+"'";
+    				bulls.add(s);
+    			}
+    			model.addAttribute("bullArray", bullArray.replaceFirst(",", ""));
+    		}else{
+    			model.addAttribute("bullArray", "");
+    		}
+    		
+    		List<Message> list = messageMapper.getBeanListType(bulls,status,3,(page-1)*30, 30);
+    		int totalRecord = messageMapper.getBeanAllCountType(bulls,status,3);
+    		if(list.size()>0)
+    			messageMapper.updateViewList(list);
     		PageUtil pageUtil = new PageUtil(30, totalRecord, page);
     		pageUtil.setTotalRecord(totalRecord);
     		pageUtil.setPageNumStart(pageUtil.getPageNumStart());
@@ -54,6 +81,8 @@ public class MessageService {
     		pageUtil.setCurrentPage(page);
     		pageUtil.setUrlName("message/bull");
     		model.addAttribute("list", list);
+    		model.addAttribute("status", status);
+    		model.addAttribute("bulllist", bull);
     		model.addAttribute("showPage", pageUtil);
     	}catch(Exception e){
     		log.error("MessageService.listType异常",e);
@@ -75,13 +104,13 @@ public class MessageService {
 		try{
 			int re=messageMapper.updateBullCategoryById(id,ArrayUtils.toString(content).replaceAll("\\{|\\}", ""));
 			if(re==1){
-				return "{code:1,meg:\"更新成功\"}";
+				return "{\"code\":1,\"msg\":\"更新成功\"}";
 			}
     		
     	}catch(Exception e){
     		log.error("MessageService.pageOne异常",e);
     	}
-		return "{code:0,meg:\"操作失败\"}";
+		return "{\"code\":0,\"msg\":\"操作失败\"}";
 	}
 	
 }

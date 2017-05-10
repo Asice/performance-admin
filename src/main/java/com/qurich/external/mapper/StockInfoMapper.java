@@ -1,7 +1,10 @@
 package com.qurich.external.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.qurich.external.model.StockInfo;
 
@@ -14,5 +17,7 @@ public interface StockInfoMapper {
 	int saveBean(StockInfo bean);
 	
 	
+	@Select("select * from stock_info")
+	List<StockInfo> getListAll();
 	
 }

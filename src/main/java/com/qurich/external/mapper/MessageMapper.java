@@ -1,5 +1,6 @@
 package com.qurich.external.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -78,18 +79,26 @@ public interface MessageMapper {
 	@Select({"<script>",
         "SELECT * from message", 
         "WHERE is_del=0 and `from`=#{type}", 
+        "<if test='status!=0'>and status = #{status}</if>",
+        "<foreach item='item' index='index' collection='bulls'>",
+	        "and FIND_IN_SET(#{item},bull_category)",
+	     "</foreach>",
         "order by time desc limit #{offset},#{rows}",
         "</script>"})
 	@Results({  
 	    @Result(property="bull_category",column="bull_category")
 	})
-	List<Message> getBeanListType(@Param("type") int type,@Param("offset") int offset,@Param("rows") int rows);
+	List<Message> getBeanListType(@Param("bulls") List<String> bulls,@Param("status") int status,@Param("type") int type,@Param("offset") int offset,@Param("rows") int rows);
 
 	@Select({"<script>",
         "SELECT count(1) from message", 
         "WHERE is_del=0 and `from`=#{type}",
+        "<if test='status!=0'>and status = #{status}</if>",
+        "<foreach item='item' index='index' collection='bulls'>",
+        "and FIND_IN_SET(#{item},bull_category)",
+     "</foreach>",
         "</script>"})
-	int getBeanAllCountType(@Param("type")int type);
+	int getBeanAllCountType(@Param("bulls") List<String> bulls,@Param("status") int status,@Param("type")int type);
 	
 	
 	@Select("SELECT * from message where id=#{id}")
@@ -100,5 +109,18 @@ public interface MessageMapper {
 	
 	@Update("update  message set bull_category=#{bull_category} where id=#{id}")
 	int updateBullCategoryById(@Param("id")int id,@Param("bull_category")String bull_category);
+	
+	@Update("update  message set status=#{status} where id=#{id}")
+	int updateStatusById(@Param("id")int id,@Param("status")int status);
+	
+	@Select({"<script>",
+        "SELECT * from message", 
+        "WHERE is_del=0 and `from`=#{type}", 
+        "and status = #{status} and `time`>#{time}",
+        "</script>"})
+	@Results({  
+	    @Result(property="bull_category",column="bull_category")
+	})
+	List<Message> getBeanListTypeStatusTime(@Param("time") Date time,@Param("status") int status,@Param("type") int type);
 	
 }

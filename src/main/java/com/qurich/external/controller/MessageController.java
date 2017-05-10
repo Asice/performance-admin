@@ -33,13 +33,17 @@ public class MessageController {
 	 */
 	@RequestMapping(value="/bull", method=RequestMethod.GET,produces = "application/json; charset=utf-8")
 	public String list(@RequestParam(value="page", required=false, defaultValue="1")int page,
+			@RequestParam(value="type", required=false, defaultValue="0")int type,
+			@RequestParam(value="bull", required=false, defaultValue="")String bull,
 			Model model){
-		return messageService.listType(page,model);
+		return messageService.listType(type,bull,page,model);
 	}
 	@RequestMapping(value="/bull/{page}", method=RequestMethod.GET,produces = "application/json; charset=utf-8")
 	public String listPage(@PathVariable("page")int page,
+			@RequestParam(value="type", required=false, defaultValue="0")int type,
+			@RequestParam(value="bull", required=false, defaultValue="")String bull,
 			Model model){
-		return messageService.listType(page,model);
+		return messageService.listType(type,bull,page,model);
 	}
 	
 	@RequestMapping(value="/page/{id}", method=RequestMethod.GET,produces = "application/json; charset=utf-8")
