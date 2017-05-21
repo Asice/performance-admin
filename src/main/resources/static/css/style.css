@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+
 /*
- *
+ *@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+ *@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
  *   INSPINIA - Responsive Admin Theme
  *   version 2.4
  *
@@ -8227,7 +8227,7 @@ body.md-skin {
     margin: 0;
   }
 }
-/*�Լ���ӵ���ʽ*/
+/*锟皆硷拷锟斤拷拥锟斤拷锟绞�*/
 .ibox-content.border-n {
   border: none;
 }
@@ -8242,7 +8242,7 @@ body.md-skin {
   background-color: rgba(255, 255, 255, 0.0);
   text-align: center;
 }
-/*ȥ��type="number"�Դ���Ĭ����ʽ*/
+/*去锟斤拷type="number"锟皆达拷锟斤拷默锟斤拷锟斤拷式*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
@@ -8268,7 +8268,7 @@ input::-webkit-inner-spin-button {
 .acc-m-frame .acc-ipnut-son {
   margin: 0 30px 10px 0;
 }
-/*���򵼺�*/
+/*锟斤拷锟津导猴拷*/
 .trans-navs {
   margin-bottom: 10px;
 }
